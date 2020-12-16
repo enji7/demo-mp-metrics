@@ -9,5 +9,9 @@ import systems.enji.demo.mp.metrics.api.IDemoService;
  */
 public class DemoService implements IDemoService {
 
+  @Override
+  public String ping() {
+    return "pong";
+  }
 
 }
