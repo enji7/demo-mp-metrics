@@ -6,7 +6,7 @@ Usage:
 
  1. Build and deploy this WAR on a compliant application server.
  1. Run JUnit tests.
- 1. Invoke health checks via browser:
+ 1. Request metrics via browser:
     * <http://localhost:9990/metrics/base>
     * <http://localhost:9990/metrics/vendor>
     * <http://localhost:9990/metrics/application>
