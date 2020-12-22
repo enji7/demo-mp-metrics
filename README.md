@@ -24,6 +24,13 @@ Usage:
  * @ConcurrentGauge
    * measures the number of concurrent requests to the annotated target
    * comes with 3 gauges: current / max / min
+ * @Metered
+   * comes with
+     * total counter
+     * rate per second (mean rate since the meter was created)
+     * 1m rate per second (one-minute exponentially weighted moving average rate since the meter was created; similiar to Unix "top")
+     * 5m rate per second
+     * 15m rate per second
  * @Timed
    * comes with
      * "rate per second" gauges (1m / 5m / 15m)

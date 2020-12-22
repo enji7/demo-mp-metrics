@@ -120,6 +120,13 @@ public class DemoTest {
     assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_concurrent_gauge_max"));
     assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_concurrent_gauge_min"));
     
+    // @Metered
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_meter_total"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_meter_rate_per_second"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_meter_one_min_rate_per_second"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_meter_five_min_rate_per_second"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_meter_fifteen_min_rate_per_second"));
+    
   }
 
 }
