@@ -21,6 +21,9 @@ Usage:
  * @Gauge
    * simply displays the value that is returned by the annotated method
    * must be applied to @ApplicationScoped beans
+ * @ConcurrentGauge
+   * measures the number of concurrent requests to the annotated target
+   * comes with 3 gauges: current / max / min
  * @Timed
    * comes with
      * "rate per second" gauges (1m / 5m / 15m)

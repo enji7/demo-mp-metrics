@@ -115,6 +115,11 @@ public class DemoTest {
     // this metric only appears after the first explicit invocation of the annotated method
     assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_GaugeResource_temperature_degrees"));
     
+    // @ConcurrentGauge
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_concurrent_gauge_current"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_concurrent_gauge_max"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_concurrent_gauge_min"));
+    
   }
 
 }
