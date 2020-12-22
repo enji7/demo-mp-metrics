@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import systems.enji.demo.mp.metrics.api.IDemoResource;
+import systems.enji.demo.mp.metrics.api.IGaugeResource;
 import systems.enji.demo.mp.metrics.api.IYetAnotherDemoResource;
 
 /**
@@ -25,6 +26,8 @@ public class DemoTest {
 
   private static IDemoResource _resource1;
   private static IYetAnotherDemoResource _resource2;
+  private static IGaugeResource _resourceGauge;
+
   
   // beware: WildFly exposes health checks under a different port than the normal application
   private static final String ENDPOINT = "http://localhost:9990";
@@ -33,14 +36,18 @@ public class DemoTest {
   
   @BeforeAll
   public static void beforeAll() throws Exception {
-    RestClientBuilder builder = RestClientBuilder.newBuilder()
+    _resource1 = RestClientBuilder.newBuilder()
         .baseUri(URI.create(ENDPOINT_APP))
-        .register(JacksonJsonProvider.class);
-    _resource1 = builder.build(IDemoResource.class);
-    RestClientBuilder builder2 = RestClientBuilder.newBuilder()
+        .register(JacksonJsonProvider.class)
+        .build(IDemoResource.class);
+    _resource2 = RestClientBuilder.newBuilder()
         .baseUri(URI.create(ENDPOINT_APP))
-        .register(JacksonJsonProvider.class);
-    _resource2 = builder2.build(IYetAnotherDemoResource.class);
+        .register(JacksonJsonProvider.class)
+        .build(IYetAnotherDemoResource.class);
+    _resourceGauge = RestClientBuilder.newBuilder()
+        .baseUri(URI.create(ENDPOINT_APP))
+        .register(JacksonJsonProvider.class)
+        .build(IGaugeResource.class);
   }
   
   /**
@@ -85,6 +92,7 @@ public class DemoTest {
     
     _resource1.ping();
     _resource2.ping();
+    _resourceGauge.temperature();
     
     Client client = ClientBuilder.newClient();
     WebTarget target = client.target(ENDPOINT + "/metrics/application");
@@ -102,6 +110,10 @@ public class DemoTest {
     // @SimplyTimed
     assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_DemoResource_elapsedTime_seconds"));
     assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_elapsedTime_seconds"));
+    
+    // @Gauge
+    // this metric only appears after the first explicit invocation of the annotated method
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_GaugeResource_temperature_degrees"));
     
   }
 

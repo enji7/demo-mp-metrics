@@ -11,6 +11,22 @@ Usage:
     * <http://localhost:9990/metrics/vendor>
     * <http://localhost:9990/metrics/application>
 
+## Annotations
+
+ * @Counted
+   * increased by 1 for every invocation
+ * @SimplyTimed
+   * increased by the duration for every invocation
+   * also comes with a counter
+ * @Gauge
+   * simply displays the value that is returned by the annotated method
+   * must be applied to @ApplicationScoped beans
+ * @Timed
+   * comes with
+     * "rate per second" gauges (1m / 5m / 15m)
+     * min / max / mean / stddev gauges
+     * summary (invocation counter and quantiles)
+
 ## Resources
 
  * <https://github.com/eclipse/microprofile-metrics/>
