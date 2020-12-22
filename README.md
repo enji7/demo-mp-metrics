@@ -36,6 +36,18 @@ Usage:
      * the same data as @Metered
      * min / max / mean / stddev gauges
      * summary (invocation counter and quantiles)
+ * @Metric
+   * a little different than the other annotations
+   * used for injecting or producing metrics
+   * can be applied to
+     * simple fields: metric gets injected
+     * producer fields (annotated with @Produces): metric gets produced
+     * producer methods
+     * parameters: metric gets injected
+
+## Programmatic Access
+
+Metrics can also be accessed programmatically by injecting the MetricRegistry.
 
 ## Resources
 
