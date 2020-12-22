@@ -33,7 +33,7 @@ Usage:
      * 15m rate per second
  * @Timed
    * comes with
-     * "rate per second" gauges (1m / 5m / 15m)
+     * the same data as @Metered
      * min / max / mean / stddev gauges
      * summary (invocation counter and quantiles)
 

@@ -127,6 +127,23 @@ public class DemoTest {
     assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_meter_five_min_rate_per_second"));
     assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_meter_fifteen_min_rate_per_second"));
     
+    // @Timed
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_rate_per_second"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_one_min_rate_per_second"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_five_min_rate_per_second"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_fifteen_min_rate_per_second"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_min_seconds"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_max_seconds"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_mean_seconds"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_stddev_seconds"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_seconds_count"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_seconds{quantile=\"0.5\"}"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_seconds{quantile=\"0.75\"}"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_seconds{quantile=\"0.95\"}"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_seconds{quantile=\"0.98\"}"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_seconds{quantile=\"0.99\"}"));
+    assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_seconds{quantile=\"0.999\"}"));
+    
   }
 
 }
