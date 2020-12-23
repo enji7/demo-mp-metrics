@@ -59,3 +59,4 @@ Resources for the complete MicroProfile spec:
  * <https://projects.eclipse.org/projects/technology.microprofile>
  * <https://github.com/eclipse/microprofile>
  * <https://github.com/eclipse/microprofile/releases>
+ * <https://wiki.eclipse.org/MicroProfile/Implementation>
