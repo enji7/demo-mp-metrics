@@ -8,6 +8,8 @@ import java.net.URI;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,14 +30,19 @@ public class DemoTest {
   private static IYetAnotherDemoResource _resource2;
   private static IGaugeResource _resourceGauge;
 
+  private static WebTarget _targetBase;
+  private static WebTarget _targetVendor;
+  private static WebTarget _targetApplication;
   
   // beware: WildFly exposes health checks under a different port than the normal application
-  private static final String ENDPOINT = "http://localhost:9990";
+  private static final String ENDPOINT_METRICS = "http://localhost:9990";
   
   private static final String ENDPOINT_APP = "http://localhost:8080/demo-mp-metrics/";
   
   @BeforeAll
   public static void beforeAll() throws Exception {
+    
+    // prepare MP REST clients for application invocation
     _resource1 = RestClientBuilder.newBuilder()
         .baseUri(URI.create(ENDPOINT_APP))
         .register(JacksonJsonProvider.class)
@@ -48,6 +55,17 @@ public class DemoTest {
         .baseUri(URI.create(ENDPOINT_APP))
         .register(JacksonJsonProvider.class)
         .build(IGaugeResource.class);
+
+    // prepare REST clients for metric retrieval
+    _targetBase = ClientBuilder.newClient().target(ENDPOINT_METRICS + "/metrics/base");
+    _targetApplication = ClientBuilder.newClient().target(ENDPOINT_METRICS + "/metrics/application");
+    _targetVendor = ClientBuilder.newClient().target(ENDPOINT_METRICS + "/metrics/vendor");
+    
+    // send requests
+    _resource1.ping();
+    _resource2.ping();
+    _resourceGauge.temperature();
+
   }
   
   /**
@@ -56,10 +74,7 @@ public class DemoTest {
   @Test
   public void base() {
     
-    Client client = ClientBuilder.newClient();
-    WebTarget target = client.target(ENDPOINT + "/metrics/base");
-    
-    String responseString = target.request().get(String.class);
+    String responseString = _targetBase.request().get(String.class);
     System.out.println(responseString);
    
     assertNotNull(responseString);
@@ -73,10 +88,7 @@ public class DemoTest {
   @Test
   public void vendor() {
     
-    Client client = ClientBuilder.newClient();
-    WebTarget target = client.target(ENDPOINT + "/metrics/vendor");
-    
-    String responseString = target.request().get(String.class);
+    String responseString = _targetVendor.request().get(String.class);
     System.out.println(responseString);
 
     assertNotNull(responseString);
@@ -90,14 +102,7 @@ public class DemoTest {
   @Test
   public void application() {
     
-    _resource1.ping();
-    _resource2.ping();
-    _resourceGauge.temperature();
-    
-    Client client = ClientBuilder.newClient();
-    WebTarget target = client.target(ENDPOINT + "/metrics/application");
-    
-    String responseString = target.request().get(String.class);
+    String responseString = _targetApplication.request().get(String.class);
     System.out.println(responseString);
 
     assertNotNull(responseString);
@@ -143,6 +148,20 @@ public class DemoTest {
     assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_seconds{quantile=\"0.98\"}"));
     assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_seconds{quantile=\"0.99\"}"));
     assertTrue(responseString.contains("application_systems_enji_demo_mp_metrics_DemoResource_ping_timer_seconds{quantile=\"0.999\"}"));
+    
+  }
+
+  /**
+   * Application-specific metrics in JSON format.
+   */
+  @Test
+  public void applicationJson() {
+    
+    String responseString = _targetApplication.request().header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON).get(String.class);
+    System.out.println(responseString);
+
+    assertNotNull(responseString);
+    assertTrue(responseString.contains("systems.enji.demo.mp.metrics.GaugeResource.temperature"));
     
   }
 
