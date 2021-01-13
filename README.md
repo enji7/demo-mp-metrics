@@ -10,6 +10,20 @@ Usage:
     * <http://localhost:9990/metrics/base>
     * <http://localhost:9990/metrics/vendor>
     * <http://localhost:9990/metrics/application>
+    
+Metrics can also be displayed in JSON format by providing the appropriate HTTP Accept header:
+
+```
+curl -H "Accept: application/json" http://localhost:9990/metrics/base
+curl -H "Accept: application/json" http://localhost:9990/metrics/vendor
+curl -H "Accept: application/json" http://localhost:9990/metrics/application
+```
+
+If you are only interested in a single metric, the names returned by the JSON response can be used as input parameter:
+
+```
+curl -H "Accept: application/json" http://localhost:9990/metrics/base/thread.count
+```
 
 ## Annotations
 
